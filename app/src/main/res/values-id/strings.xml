@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Waktu Sholat</string>
+    <string name="next_prayer_fmt">Sholat berikutnya: %1$s</string>
+    <string name="fajr_tomorrow">Subuh (besok)</string>
+    <string name="ad_label">Iklan</string>
+    <string name="privacy_title">Kebijakan Privasi</string>
+    <string name="privacy_body">Salah Times tidak mengumpulkan data pribadi kamu. Semua perhitungan waktu sholat dilakukan secara lokal di perangkat.
+\n\nAplikasi ini menampilkan iklan dari Google AdMob. Google dan mitra iklannya dapat mengumpulkan dan memproses data anonim sesuai kebijakan mereka untuk personalisasi iklan.
+\n\nKebijakan Privasi Google: https://policies.google.com/privacy
+\n\nKamu dapat mengelola preferensi iklan di pengaturan perangkat (Google → Iklan).
+\n\nPreferensi lokal (frekuensi iklan) tidak pernah meninggalkan perangkat.
+\n\nKontak: crowja@live.com</string>
+</resources>
