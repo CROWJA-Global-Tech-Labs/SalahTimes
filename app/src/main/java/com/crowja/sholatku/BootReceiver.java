@@ -17,7 +17,12 @@ public class BootReceiver extends BroadcastReceiver {
                 || Intent.ACTION_LOCKED_BOOT_COMPLETED.equals(a)
                 || Intent.ACTION_MY_PACKAGE_REPLACED.equals(a)
                 || "android.intent.action.QUICKBOOT_POWERON".equals(a)) {
-            AdzanScheduler.rescheduleAll(ctx);
+            try {
+                AdzanScheduler.rescheduleAll(ctx);
+            } catch (Throwable ignored) {
+                // Never let a scheduling failure crash a receiver — a crash here
+                // on MY_PACKAGE_REPLACED would block the app from launching.
+            }
         }
     }
 }

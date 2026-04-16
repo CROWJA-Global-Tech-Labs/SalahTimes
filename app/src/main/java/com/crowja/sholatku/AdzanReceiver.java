@@ -25,14 +25,18 @@ public class AdzanReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context ctx, Intent intent) {
-        int idx = intent.getIntExtra(AdzanScheduler.EXTRA_PRAYER_IDX, 0);
-        if (idx < 0 || idx > 4) idx = 0;
+        try {
+            int idx = intent == null ? 0 : intent.getIntExtra(AdzanScheduler.EXTRA_PRAYER_IDX, 0);
+            if (idx < 0 || idx > 4) idx = 0;
 
-        createChannel(ctx);
-        postNotification(ctx, idx);
+            createChannel(ctx);
+            postNotification(ctx, idx);
 
-        // Re-queue the next occurrence (same prayer, tomorrow) and refresh others.
-        AdzanScheduler.rescheduleAll(ctx);
+            // Re-queue the next occurrence (same prayer, tomorrow) and refresh others.
+            AdzanScheduler.rescheduleAll(ctx);
+        } catch (Throwable ignored) {
+            // Broadcast receivers must never throw — a crash here would block future alarms.
+        }
     }
 
     private void createChannel(Context ctx) {

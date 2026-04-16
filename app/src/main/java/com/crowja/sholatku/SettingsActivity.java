@@ -209,7 +209,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
         String name = etName.getText().toString().trim();
         Prefs.setLocation(this, lat, lon, name);
-        AdzanScheduler.rescheduleAll(this);
+        try { AdzanScheduler.rescheduleAll(this); } catch (Throwable ignored) {}
         Toast.makeText(this, R.string.settings_saved, Toast.LENGTH_SHORT).show();
         setResult(RESULT_OK);
         finish();

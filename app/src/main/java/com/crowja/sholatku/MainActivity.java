@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         renderLocationNote();
 
         maybeRequestNotificationPermission();
-        AdzanScheduler.rescheduleAll(this);
+        try { AdzanScheduler.rescheduleAll(this); } catch (Throwable ignored) {}
     }
 
     @Override protected void onResume() {
@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
                     getString(PRAYER_NAMES[i])));
             sw.setOnCheckedChangeListener((CompoundButton b, boolean on) -> {
                 Prefs.setAdzanEnabled(this, idx, on);
-                AdzanScheduler.rescheduleAll(this);
+                try { AdzanScheduler.rescheduleAll(this); } catch (Throwable ignored) {}
                 Toast.makeText(this,
                         getString(on ? R.string.adzan_on_toast : R.string.adzan_off_toast,
                                 getString(PRAYER_NAMES[idx])),
