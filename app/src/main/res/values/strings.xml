@@ -1,13 +1,24 @@
 <resources>
     <string name="app_name">Salah Times</string>
-    <string name="next_prayer_fmt">Next prayer: %1$s</string>
+    <string name="next_prayer_label">Next prayer</string>
+    <string name="today_schedule">Today\'s schedule</string>
     <string name="fajr_tomorrow">Fajr (tomorrow)</string>
+    <string name="countdown_fmt">in %1$02d:%2$02d:%3$02d</string>
+    <string name="mvp_note">Times shown are reference values for Jakarta (WIB). v1.1 will use astronomical calculation based on your location.</string>
     <string name="ad_label">Ad</string>
     <string name="privacy_title">Privacy Policy</string>
     <string name="privacy_body">Salah Times does not collect personal data. All prayer-time calculations run locally on your device.
-\n\nThis app shows ads via Google AdMob. Google and its advertising partners may collect and process anonymous data in line with their policies for ad personalization.
+\n\nThis app shows ads via Google AdMob.
 \n\nGoogle Privacy Policy: https://policies.google.com/privacy
-\n\nYou can manage ad preferences in your device settings (Google → Ads).
-\n\nLocal preferences stored by this app (ad frequency state) never leave your device.
-\n\nContact: crowja@live.com</string>
+</string>
+
+    <string name="prayer_fajr">Fajr</string>
+    <string name="prayer_dhuhr">Dhuhr</string>
+    <string name="prayer_asr">Asr</string>
+    <string name="prayer_maghrib">Maghrib</string>
+    <string name="prayer_isha">Isha</string>
+
+    <string name="qibla_label">Qibla Direction</string>
+    <string name="qibla_bearing">295° WNW from Jakarta</string>
+    <string name="qibla_note">Approximate compass bearing. Use a physical compass for accuracy.</string>
 </resources>

@@ -1,13 +1,24 @@
 <resources>
     <string name="app_name">Waktu Sholat</string>
-    <string name="next_prayer_fmt">Sholat berikutnya: %1$s</string>
+    <string name="next_prayer_label">Sholat berikutnya</string>
+    <string name="today_schedule">Jadwal hari ini</string>
     <string name="fajr_tomorrow">Subuh (besok)</string>
+    <string name="countdown_fmt">dalam %1$02d:%2$02d:%3$02d</string>
+    <string name="mvp_note">Waktu yang ditampilkan adalah referensi untuk Jakarta (WIB). v1.1 akan menggunakan perhitungan astronomi berdasarkan lokasi kamu.</string>
     <string name="ad_label">Iklan</string>
     <string name="privacy_title">Kebijakan Privasi</string>
     <string name="privacy_body">Salah Times tidak mengumpulkan data pribadi kamu. Semua perhitungan waktu sholat dilakukan secara lokal di perangkat.
-\n\nAplikasi ini menampilkan iklan dari Google AdMob. Google dan mitra iklannya dapat mengumpulkan dan memproses data anonim sesuai kebijakan mereka untuk personalisasi iklan.
+\n\nAplikasi ini menampilkan iklan dari Google AdMob.
 \n\nKebijakan Privasi Google: https://policies.google.com/privacy
-\n\nKamu dapat mengelola preferensi iklan di pengaturan perangkat (Google → Iklan).
-\n\nPreferensi lokal (frekuensi iklan) tidak pernah meninggalkan perangkat.
-\n\nKontak: crowja@live.com</string>
+</string>
+
+    <string name="prayer_fajr">Subuh</string>
+    <string name="prayer_dhuhr">Dzuhur</string>
+    <string name="prayer_asr">Ashar</string>
+    <string name="prayer_maghrib">Maghrib</string>
+    <string name="prayer_isha">Isya</string>
+
+    <string name="qibla_label">Arah Kiblat</string>
+    <string name="qibla_bearing">295° WNW dari Jakarta</string>
+    <string name="qibla_note">Perkiraan arah kompas. Gunakan kompas fisik untuk akurasi.</string>
 </resources>

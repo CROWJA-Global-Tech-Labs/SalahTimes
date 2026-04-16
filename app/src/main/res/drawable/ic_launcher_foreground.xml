@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Crescent -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M72,54 A22,22 0 1 1 72,53.99 A18,18 0 1 0 72,54 Z"/>
+    <!-- Star -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M80,40 L82,45 L87,45 L83,48 L85,53 L80,50 L75,53 L77,48 L73,45 L78,45 Z"/>
+</vector>

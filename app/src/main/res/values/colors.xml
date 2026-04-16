@@ -1,0 +1,13 @@
+<resources>
+    <color name="brand_primary">#047857</color>
+    <color name="brand_primary_dark">#064E3B</color>
+    <color name="brand_accent">#10B981</color>
+    <color name="brand_surface">#ECFDF5</color>
+    <color name="ic_launcher_background">#064E3B</color>
+    <color name="text_primary">#0F172A</color>
+    <color name="text_secondary">#64748B</color>
+    <color name="divider">#E2E8F0</color>
+    <color name="next_highlight">#D1FAE5</color>
+    <color name="ad_bg">#F1F5F9</color>
+    <color name="ad_label">#94A3B8</color>
+</resources>
