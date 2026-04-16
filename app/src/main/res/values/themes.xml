@@ -9,7 +9,7 @@
 
     <style name="App.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeColor">@color/input_stroke_state</item>
-        <item name="boxStrokeWidth">1.5dp</item>
+        <item name="boxStrokeWidth">2dp</item>
         <item name="boxStrokeWidthFocused">2dp</item>
         <item name="hintTextColor">@color/brand_primary</item>
     </style>
