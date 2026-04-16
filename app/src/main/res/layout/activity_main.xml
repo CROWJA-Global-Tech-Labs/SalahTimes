@@ -86,6 +86,14 @@
                     android:textColor="#FFFFFF" />
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/tvLocationNote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textSize="11sp"
+                android:textColor="@color/text_secondary" />
+
             <!-- Prayer list -->
             <TextView
                 android:layout_width="wrap_content"
@@ -108,17 +116,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="@string/mvp_note"
+                android:text="@string/adzan_hint"
                 android:textSize="11sp"
                 android:textColor="@color/text_secondary" />
 
             <LinearLayout
+                android:id="@+id/qiblaCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/prayer_row_bg"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="16dp"
+                android:clickable="true"
+                android:focusable="true">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -133,7 +144,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="295° WNW"
+                    android:text="—"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="@color/brand_primary_dark" />
@@ -142,7 +153,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="@string/qibla_note"
+                    android:text="@string/qibla_tap_hint"
                     android:textSize="11sp"
                     android:textColor="@color/text_secondary" />
             </LinearLayout>

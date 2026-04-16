@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Network (for ads only) -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- Location: either coarse or fine is sufficient for prayer-time accuracy -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- Alarms & notifications for adzan reminders -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <!-- Sensor feature declared optional so the app still installs on devices without a compass -->
+    <uses-feature android:name="android.hardware.sensor.compass" android:required="false" />
 
     <application
         android:allowBackup="false"
@@ -25,7 +39,39 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PrivacyActivity" android:exported="false"
+
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false"
+            android:label="@string/settings_title"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".QiblaActivity"
+            android:exported="false"
+            android:label="@string/qibla_label"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".PrivacyActivity"
+            android:exported="false"
             android:label="@string/privacy_title" />
+
+        <!-- Adzan alarm receiver -->
+        <receiver
+            android:name=".AdzanReceiver"
+            android:exported="false" />
+
+        <!-- Re-arm alarms after reboot / APK replace -->
+        <receiver
+            android:name=".BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>

@@ -4,21 +4,65 @@
     <string name="today_schedule">Jadwal hari ini</string>
     <string name="fajr_tomorrow">Subuh (besok)</string>
     <string name="countdown_fmt">dalam %1$02d:%2$02d:%3$02d</string>
-    <string name="mvp_note">Waktu yang ditampilkan adalah referensi untuk Jakarta (WIB). v1.1 akan menggunakan perhitungan astronomi berdasarkan lokasi kamu.</string>
     <string name="ad_label">Iklan</string>
+
+    <!-- Privacy -->
     <string name="privacy_title">Kebijakan Privasi</string>
-    <string name="privacy_body">Salah Times tidak mengumpulkan data pribadi kamu. Semua perhitungan waktu sholat dilakukan secara lokal di perangkat.
+    <string name="privacy_body">Waktu Sholat tidak mengumpulkan data pribadi kamu. Semua perhitungan waktu sholat dilakukan secara lokal di perangkat. Koordinat lokasi hanya disimpan di perangkat ini.
 \n\nAplikasi ini menampilkan iklan dari Google AdMob.
 \n\nKebijakan Privasi Google: https://policies.google.com/privacy
 </string>
 
+    <!-- Nama sholat -->
     <string name="prayer_fajr">Subuh</string>
     <string name="prayer_dhuhr">Dzuhur</string>
     <string name="prayer_asr">Ashar</string>
     <string name="prayer_maghrib">Maghrib</string>
     <string name="prayer_isha">Isya</string>
 
+    <!-- Kiblat -->
     <string name="qibla_label">Arah Kiblat</string>
-    <string name="qibla_bearing">295° WNW dari Jakarta</string>
-    <string name="qibla_note">Perkiraan arah kompas. Gunakan kompas fisik untuk akurasi.</string>
+    <string name="qibla_tap_hint">Ketuk untuk kompas langsung</string>
+    <string name="qibla_from_fmt">Dari %1$s</string>
+    <string name="qibla_live_hint">Pegang perangkat mendatar. Panah hijau selalu menunjuk ke Ka\'bah. Kalibrasi dengan gerakan angka 8 bila pembacaan terlihat geser.</string>
+
+    <!-- Lokasi -->
+    <string name="location_fmt">%1$s · %2$.4f, %3$.4f</string>
+    <string name="location_section">Lokasi</string>
+    <string name="use_gps">Gunakan GPS untuk deteksi lokasi</string>
+    <string name="manual_coords_label">Atau masukkan koordinat secara manual</string>
+    <string name="hint_lat">Lintang</string>
+    <string name="hint_lon">Bujur</string>
+    <string name="hint_loc_name">Nama kota / tempat</string>
+    <string name="locating">Mencari lokasi…</string>
+    <string name="gps_unavailable">GPS tidak tersedia. Aktifkan layanan lokasi lalu coba lagi.</string>
+    <string name="location_permission_denied">Izin lokasi ditolak. Masukkan koordinat manual.</string>
+    <string name="location_updated">Lokasi diperbarui</string>
+    <string name="invalid_coords">Masukkan angka lintang dan bujur yang valid.</string>
+    <string name="invalid_coords_range">Lintang harus −90…90 dan bujur −180…180.</string>
+
+    <!-- Adzan -->
+    <string name="adzan_section">Suara adzan</string>
+    <string name="adzan_tone_label">Nada</string>
+    <string name="adzan_tone_hint">Pilih nada alarm/notifikasi apa saja di perangkat ini — atau tambahkan rekaman adzan sendiri lewat aplikasi Files/Musik, lalu pilih di sini.</string>
+    <string name="pick_tone">Pilih nada</string>
+    <string name="reset_default">Gunakan default</string>
+    <string name="tone_default">Nada alarm default</string>
+    <string name="tone_custom">Nada kustom</string>
+    <string name="tone_reset_default">Kembali ke nada alarm default</string>
+    <string name="tone_picker_unavailable">Pemilih nada tidak tersedia di perangkat ini.</string>
+    <string name="pick_tone_title">Pilih nada adzan</string>
+    <string name="adzan_hint">Geser sakelar di sebelah tiap waktu sholat untuk memainkan adzan di waktu tersebut.</string>
+    <string name="adzan_switch_desc">Adzan untuk %1$s</string>
+    <string name="adzan_on_toast">Adzan ON untuk %1$s</string>
+    <string name="adzan_off_toast">Adzan OFF untuk %1$s</string>
+    <string name="adzan_title_fmt">%1$s — waktunya sholat</string>
+    <string name="adzan_body">Waktunya sholat. Ketuk untuk membuka Waktu Sholat.</string>
+    <string name="adzan_channel_name">Pengingat adzan</string>
+    <string name="adzan_channel_desc">Memainkan nada adzan di waktu sholat terjadwal.</string>
+
+    <!-- Setelan -->
+    <string name="settings_title">Setelan</string>
+    <string name="save_settings">Simpan</string>
+    <string name="settings_saved">Tersimpan</string>
 </resources>

@@ -4,21 +4,65 @@
     <string name="today_schedule">Today\'s schedule</string>
     <string name="fajr_tomorrow">Fajr (tomorrow)</string>
     <string name="countdown_fmt">in %1$02d:%2$02d:%3$02d</string>
-    <string name="mvp_note">Times shown are reference values for Jakarta (WIB). v1.1 will use astronomical calculation based on your location.</string>
     <string name="ad_label">Ad</string>
+
+    <!-- Privacy -->
     <string name="privacy_title">Privacy Policy</string>
-    <string name="privacy_body">Salah Times does not collect personal data. All prayer-time calculations run locally on your device.
+    <string name="privacy_body">Salah Times does not collect personal data. All prayer-time calculations run locally on your device. Your location coordinates are stored only on this device.
 \n\nThis app shows ads via Google AdMob.
 \n\nGoogle Privacy Policy: https://policies.google.com/privacy
 </string>
 
+    <!-- Prayer names -->
     <string name="prayer_fajr">Fajr</string>
     <string name="prayer_dhuhr">Dhuhr</string>
     <string name="prayer_asr">Asr</string>
     <string name="prayer_maghrib">Maghrib</string>
     <string name="prayer_isha">Isha</string>
 
+    <!-- Qibla -->
     <string name="qibla_label">Qibla Direction</string>
-    <string name="qibla_bearing">295° WNW from Jakarta</string>
-    <string name="qibla_note">Approximate compass bearing. Use a physical compass for accuracy.</string>
+    <string name="qibla_tap_hint">Tap for live compass</string>
+    <string name="qibla_from_fmt">From %1$s</string>
+    <string name="qibla_live_hint">Hold your device flat. The green arrow always points toward the Kaaba. Calibrate by moving your device in a figure-8 if it drifts.</string>
+
+    <!-- Location -->
+    <string name="location_fmt">%1$s · %2$.4f, %3$.4f</string>
+    <string name="location_section">Location</string>
+    <string name="use_gps">Use GPS to detect location</string>
+    <string name="manual_coords_label">Or enter coordinates manually</string>
+    <string name="hint_lat">Latitude</string>
+    <string name="hint_lon">Longitude</string>
+    <string name="hint_loc_name">City / place name</string>
+    <string name="locating">Locating…</string>
+    <string name="gps_unavailable">GPS unavailable. Enable location services and try again.</string>
+    <string name="location_permission_denied">Location permission denied. Enter coordinates manually.</string>
+    <string name="location_updated">Location updated</string>
+    <string name="invalid_coords">Enter valid numeric latitude and longitude.</string>
+    <string name="invalid_coords_range">Latitude must be −90…90 and longitude −180…180.</string>
+
+    <!-- Adzan -->
+    <string name="adzan_section">Adzan sound</string>
+    <string name="adzan_tone_label">Tone</string>
+    <string name="adzan_tone_hint">Pick any alarm/notification tone on this device — or add your own adzan recording via your Files/Music app first, then pick it here.</string>
+    <string name="pick_tone">Pick tone</string>
+    <string name="reset_default">Use default</string>
+    <string name="tone_default">Default alarm tone</string>
+    <string name="tone_custom">Custom tone</string>
+    <string name="tone_reset_default">Reset to default alarm tone</string>
+    <string name="tone_picker_unavailable">No tone picker available on this device.</string>
+    <string name="pick_tone_title">Pick adzan tone</string>
+    <string name="adzan_hint">Toggle the switch next to each prayer to play the adzan tone at that time.</string>
+    <string name="adzan_switch_desc">Adzan for %1$s</string>
+    <string name="adzan_on_toast">Adzan ON for %1$s</string>
+    <string name="adzan_off_toast">Adzan OFF for %1$s</string>
+    <string name="adzan_title_fmt">%1$s — time to pray</string>
+    <string name="adzan_body">It is time for prayer. Tap to open Salah Times.</string>
+    <string name="adzan_channel_name">Adzan reminders</string>
+    <string name="adzan_channel_desc">Plays the adzan tone at scheduled prayer times.</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="save_settings">Save</string>
+    <string name="settings_saved">Saved</string>
 </resources>

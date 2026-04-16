@@ -1,17 +1,25 @@
 package com.crowja.sholatku;
 
+import android.Manifest;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.crowja.sholatku.databinding.ActivityMainBinding;
@@ -24,22 +32,25 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 /**
- * SalahTimes — prayer-time display with live countdown + Hijri date.
- * MVP uses fixed reference times (Jakarta / WIB). A later version will use the
- * batoulapps/adhan-java library with location-based calculation.
+ * SalahTimes — prayer-time display with live countdown, Hijri date,
+ * per-prayer adzan toggles, and location-aware MWL calculation.
  */
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
 
-    private static final String[] TIMES = {"04:35", "12:02", "15:20", "18:05", "19:15"};
+    private static final int REQ_SETTINGS  = 101;
+    private static final int REQ_POST_NOTIF = 102;
 
     private static final int[] PRAYER_NAMES = {
             R.string.prayer_fajr, R.string.prayer_dhuhr, R.string.prayer_asr,
             R.string.prayer_maghrib, R.string.prayer_isha
     };
+
+    private String[] times = new String[5];
 
     private final Handler handler = new Handler(Looper.getMainLooper());
     private final Runnable tick = new Runnable() {
@@ -62,12 +73,29 @@ public class MainActivity extends AppCompatActivity {
         MobileAds.initialize(this, s -> {});
         binding.adView.loadAd(new AdRequest.Builder().build());
 
+        binding.qiblaCard.setOnClickListener(v ->
+                startActivity(new Intent(this, QiblaActivity.class)));
+
+        recomputeTimes();
         renderDate();
         buildPrayerList();
-        binding.tvQibla.setText(R.string.qibla_bearing);
+        renderQibla();
+        renderLocationNote();
+
+        maybeRequestNotificationPermission();
+        AdzanScheduler.rescheduleAll(this);
     }
 
-    @Override protected void onResume() { super.onResume(); handler.post(tick); }
+    @Override protected void onResume() {
+        super.onResume();
+        // If user changed settings elsewhere, refresh on return.
+        recomputeTimes();
+        buildPrayerList();
+        renderQibla();
+        renderLocationNote();
+        handler.post(tick);
+    }
+
     @Override protected void onPause()  { super.onPause();  handler.removeCallbacks(tick); }
 
     @Override
@@ -78,11 +106,37 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.action_privacy) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            startActivityForResult(new Intent(this, SettingsActivity.class), REQ_SETTINGS);
+            return true;
+        }
+        if (id == R.id.action_privacy) {
             startActivity(new Intent(this, PrivacyActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQ_SETTINGS && resultCode == RESULT_OK) {
+            recomputeTimes();
+            buildPrayerList();
+            renderQibla();
+            renderLocationNote();
+        }
+    }
+
+    // ---- Rendering ----
+
+    private void recomputeTimes() {
+        double lat = Prefs.getLat(this);
+        double lon = Prefs.getLon(this);
+        PrayerCalculator.Times t = PrayerCalculator.compute(
+                lat, lon, TimeZone.getDefault(), Calendar.getInstance());
+        times = t.asArray();
     }
 
     private void renderDate() {
@@ -91,13 +145,32 @@ public class MainActivity extends AppCompatActivity {
         binding.tvHijri.setText(approximateHijri());
     }
 
+    private void renderLocationNote() {
+        String name = Prefs.getLocationName(this);
+        double lat = Prefs.getLat(this);
+        double lon = Prefs.getLon(this);
+        String text = getString(R.string.location_fmt, name, lat, lon);
+        binding.tvLocationNote.setText(text);
+    }
+
+    private void renderQibla() {
+        double lat = Prefs.getLat(this);
+        double lon = Prefs.getLon(this);
+        double bearing = PrayerCalculator.qiblaBearing(lat, lon);
+        String label = PrayerCalculator.compassLabel(bearing);
+        binding.tvQibla.setText(String.format(Locale.getDefault(),
+                "%.0f° %s", bearing, label));
+    }
+
     private void buildPrayerList() {
         binding.prayerList.removeAllViews();
         int nextIdx = nextPrayerIndex();
-        for (int i = 0; i < TIMES.length; i++) {
+        for (int i = 0; i < times.length; i++) {
+            final int idx = i;
             LinearLayout row = new LinearLayout(this);
             row.setOrientation(LinearLayout.HORIZONTAL);
-            row.setPadding(dp(16), dp(14), dp(16), dp(14));
+            row.setPadding(dp(16), dp(12), dp(16), dp(12));
+            row.setGravity(android.view.Gravity.CENTER_VERTICAL);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp.bottomMargin = dp(8);
@@ -114,12 +187,29 @@ public class MainActivity extends AppCompatActivity {
             row.addView(name, np);
 
             TextView time = new TextView(this);
-            time.setText(TIMES[i]);
+            time.setText(times[i]);
             time.setTextSize(18);
             time.setTypeface(time.getTypeface(), android.graphics.Typeface.BOLD);
             time.setTextColor(ContextCompat.getColor(this,
                     i == nextIdx ? R.color.brand_primary_dark : R.color.text_primary));
-            row.addView(time);
+            LinearLayout.LayoutParams tp = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            tp.rightMargin = dp(12);
+            row.addView(time, tp);
+
+            SwitchCompat sw = new SwitchCompat(this);
+            sw.setChecked(Prefs.isAdzanEnabled(this, i));
+            sw.setContentDescription(getString(R.string.adzan_switch_desc,
+                    getString(PRAYER_NAMES[i])));
+            sw.setOnCheckedChangeListener((CompoundButton b, boolean on) -> {
+                Prefs.setAdzanEnabled(this, idx, on);
+                AdzanScheduler.rescheduleAll(this);
+                Toast.makeText(this,
+                        getString(on ? R.string.adzan_on_toast : R.string.adzan_off_toast,
+                                getString(PRAYER_NAMES[idx])),
+                        Toast.LENGTH_SHORT).show();
+            });
+            row.addView(sw);
 
             binding.prayerList.addView(row);
         }
@@ -132,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
         String name, time;
         if (idx >= 0) {
             name = getString(PRAYER_NAMES[idx]);
-            time = TIMES[idx];
+            time = times[idx];
             target = minutesOf(time) * 60L * 1000L;
             long nowMs = (now.get(Calendar.HOUR_OF_DAY) * 3600L
                     + now.get(Calendar.MINUTE) * 60L
@@ -140,14 +230,17 @@ public class MainActivity extends AppCompatActivity {
             long diffMs = target - nowMs;
             setCountdown(name, time, diffMs);
         } else {
-            // After Isha → show Fajr tomorrow
-            name = getString(PRAYER_NAMES[0]);
-            time = TIMES[0];
+            // After Isha → show Fajr tomorrow (recomputed for the next day's coords)
+            Calendar tomorrow = (Calendar) now.clone();
+            tomorrow.add(Calendar.DAY_OF_YEAR, 1);
+            PrayerCalculator.Times t2 = PrayerCalculator.compute(
+                    Prefs.getLat(this), Prefs.getLon(this), TimeZone.getDefault(), tomorrow);
+            String fajr = t2.asArray()[0];
             long nowMs = (now.get(Calendar.HOUR_OF_DAY) * 3600L
                     + now.get(Calendar.MINUTE) * 60L
                     + now.get(Calendar.SECOND)) * 1000L;
-            long diffMs = (24L * 3600 * 1000 - nowMs) + minutesOf(time) * 60L * 1000L;
-            setCountdown(getString(R.string.fajr_tomorrow), time, diffMs);
+            long diffMs = (24L * 3600 * 1000 - nowMs) + minutesOf(fajr) * 60L * 1000L;
+            setCountdown(getString(R.string.fajr_tomorrow), fajr, diffMs);
         }
     }
 
@@ -162,8 +255,8 @@ public class MainActivity extends AppCompatActivity {
     private int nextPrayerIndex() {
         Calendar now = Calendar.getInstance();
         int nowMin = now.get(Calendar.HOUR_OF_DAY) * 60 + now.get(Calendar.MINUTE);
-        for (int i = 0; i < TIMES.length; i++) {
-            if (minutesOf(TIMES[i]) > nowMin) return i;
+        for (int i = 0; i < times.length; i++) {
+            if (minutesOf(times[i]) > nowMin) return i;
         }
         return -1;
     }
@@ -175,17 +268,30 @@ public class MainActivity extends AppCompatActivity {
 
     private int dp(int v) { return Math.round(getResources().getDisplayMetrics().density * v); }
 
-    /**
-     * Approximate Hijri conversion using Umm al-Qura offset.
-     * Accurate ±1 day — sufficient for display. For ritual accuracy, use ICU.
-     */
+    private void maybeRequestNotificationPermission() {
+        // POST_NOTIFICATIONS is required on API 33+ for adzan notifications to surface.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.POST_NOTIFICATIONS}, REQ_POST_NOTIF);
+            }
+        }
+        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        if (nm != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Pre-create channel so the user sees it in system settings even before first alarm.
+            new AdzanReceiver(); // noop; channel is created lazily in onReceive, but we mirror here:
+        }
+    }
+
+    // ---- Hijri (unchanged Kuwaiti tabular) ----
+
     private String approximateHijri() {
         Calendar g = Calendar.getInstance();
         int y = g.get(Calendar.YEAR);
         int m = g.get(Calendar.MONTH) + 1;
         int d = g.get(Calendar.DAY_OF_MONTH);
         long jd = gregorianToJd(y, m, d);
-        // Islamic tabular (Kuwaiti) algorithm
         long islamicDay = jd - 1948440 + 10632;
         long n = (islamicDay - 1) / 10631;
         islamicDay = islamicDay - 10631 * n + 354;
